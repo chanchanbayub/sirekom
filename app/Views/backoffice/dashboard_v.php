@@ -36,6 +36,34 @@
                 </div>
             </div>
         </div>
+
+        <div class="d-md-flex align-items-center">
+            <div>
+                <h4 class="card-title text-uppercase"> <u> Database yang Terdaftar Dengan PTSP </u></h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <?php foreach ($operator_data as $operator_data) : ?>
+                <div class="col-lg-4">
+                    <div class="card-body">
+                        <br>
+                        <div class="card text-center">
+                            <div class="card-header">
+                                <h5 class="text-uppercase"><?= $operator_data['operator_kendaraan'] ?></h5>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><?= number_format($operator_data["jumlah_kendaraan"]) ?> Kendaraan yang terdaftar </h5>
+                            </div>
+                            <div class="card-footer text-body-secondary">
+                                <a href="/backoffice/data_base_kendaraan/<?= urlencode(base64_encode($operator_data["operator_kendaraan"])) ?>" target="_blank" class="btn btn-outline-primary btn-sm">Lihat Data Kendaraan</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 

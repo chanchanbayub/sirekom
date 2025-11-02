@@ -50,8 +50,6 @@ class DashboardController extends BaseController
                     'jumlah_kendaraan' => count($jmlh_kendaraan)
                 ];
             }
-
-            // $total_kendaraan = $this->kendaraanModel->countAllResults();
         } else {
 
             $token_data = $this->fetchModel->getToken();
@@ -74,7 +72,6 @@ class DashboardController extends BaseController
                     'jumlah_kendaraan' => count($jmlh_kendaraan)
                 ];
             }
-            // $total_kendaraan = $this->kendaraanModel->countAllResults();
         }
 
 
