@@ -77,11 +77,20 @@ class PengajuanRekomendasiController extends BaseController
 
             return DataTable::of($rekom_pengajuan)
                 ->add('action', function ($row) {
-                    return '<button class="btn btn-sm btn-outline-warning" id="edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' .  $row->id . '" type="button"> <i class="ti ti-pencil"></i>
+
+                    if ($row->status_perizinan_id == 4 || $row->status_perizinan_id == 5) {
+                        return '<button class="btn btn-sm btn-outline-warning" disabled id="edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' .  $row->id . '" type="button"> <i class="ti ti-pencil"></i>
+                            </button>
+                    <button class="btn btn-sm btn-outline-danger" disabled id="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="' .  $row->id . '" type="button"> <i class="ti ti-trash"></i>
+                            </button>
+                            ';
+                    } else {
+                        return '<button class="btn btn-sm btn-outline-warning" id="edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="' .  $row->id . '" type="button"> <i class="ti ti-pencil"></i>
                             </button>
                     <button class="btn btn-sm btn-outline-danger" id="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="' .  $row->id . '" type="button"> <i class="ti ti-trash"></i>
                             </button>
                             ';
+                    }
                 })
                 ->add('status_perizinan', function ($row) {
                     return '<button type="button" class="btn btn-sm btn-info"> ' . $row->status_perizinan .  '</button>';
@@ -133,7 +142,7 @@ class PengajuanRekomendasiController extends BaseController
         $tanggal_hari_ini = date('Y-m-d');
 
         if ($pengajuan_rekom->surat_pengantar_id == 1) {
-            if ($pengajuan_rekom->jenis_perizinan_id == 1) {
+            if ($pengajuan_rekom->jenis_perizinan_id == 1 || $pengajuan_rekom->jenis_perizinan_id == 2 || $pengajuan_rekom->jenis_perizinan_id == 3) {
                 foreach ($data_kendaraan as $kendaraan) {
                     $validasi_cek_kir = $this->fetchModel->FetchModel($kendaraan->nomor_kendaraan);
                     if ($validasi_cek_kir["message"] == "Success") {
@@ -307,6 +316,12 @@ class PengajuanRekomendasiController extends BaseController
                         'required' => 'Tidak Boleh Kosong !'
                     ]
                 ],
+                'noPengajuanRekom' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Tidak Boleh Kosong !'
+                    ]
+                ],
                 'dokumen_surat_pengantar' => [
                     'rules' => 'uploaded[dokumen_surat_pengantar]|max_size[dokumen_surat_pengantar,5048]|mime_in[dokumen_surat_pengantar,application/pdf]',
                     'errors' => [
@@ -344,6 +359,7 @@ class PengajuanRekomendasiController extends BaseController
                         'surat_pengantar_id' => $this->validation->getError('surat_pengantar_id'),
                         'jenis_perizinan_id' => $this->validation->getError('jenis_perizinan_id'),
                         'users_id' => $this->validation->getError('users_id'),
+                        'noPengajuanRekom' => $this->validation->getError('noPengajuanRekom'),
                         'dokumen_surat_pengantar' => $this->validation->getError('dokumen_surat_pengantar'),
                         'dokumen_nomor_kendaraan' => $this->validation->getError('dokumen_nomor_kendaraan'),
                         'dokumen_lainnya' => $this->validation->getError('dokumen_lainnya'),
@@ -366,16 +382,10 @@ class PengajuanRekomendasiController extends BaseController
                 $tanggal_pengajuan = $this->request->getVar('tanggal_pengajuan');
                 $status_perizinan_id = $this->request->getPost('status_perizinan_id');
 
-                $noPengajuanRekom = $this->pengajuanRekomendasiModel->getNomorPengajuanRekom();
-
-                if ($noPengajuanRekom == null) {
-                    $getRandomNumber = "SIREKOM-00" . 1;
-                } else {
-                    $getRandomNumber = "SIREKOM-00" . 2;
-                }
+                $noPengajuanRekom = $this->request->getVar('noPengajuanRekom');
 
                 $this->pengajuanRekomendasiModel->save([
-                    'noPengajuanRekom' => $getRandomNumber,
+                    'noPengajuanRekom' => $noPengajuanRekom,
                     'surat_pengantar_id' => $surat_pengantar_id,
                     'jenis_perizinan_id' => $jenis_perizinan_id,
                     'users_id' => $users_id,
@@ -477,7 +487,7 @@ class PengajuanRekomendasiController extends BaseController
             }
 
             $alert = [
-                'success' => 'Kode Trayek Kendaraan Berhasil di Hapus !'
+                'success' => 'Berhasil di Hapus !'
             ];
 
             if ($pengajuan_rekom['dokumen_lainnya'] != null || $pengajuan_rekom['dokumen_surat_pengantar'] != null) {

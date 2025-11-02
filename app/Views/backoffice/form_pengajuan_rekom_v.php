@@ -21,7 +21,7 @@
                         <hr>
                         <form class="row g-3" id="add_form">
                             <?= csrf_field(); ?>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="surat_pengantar_id" class="form-label">Surat Pengantar Perizinan</label>
                                 <select name="surat_pengantar_id" id="surat_pengantar_id" class="form-select" style="width: 100%;">
                                     <option value="">--Silahkan Pilih--</option>
@@ -33,12 +33,20 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="jenis_perizinan_id" class="form-label">Pilih Jenis Perizinan</label>
                                 <select name="jenis_perizinan_id" id="jenis_perizinan_id" class="form-select" style="width: 100%;" disabled>
                                     <option value="">--Silahkan Pilih--</option>
                                 </select>
                                 <div id="validationServer04Feedback" class="invalid-feedback error-jenis-perizinan">
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="noPengajuanRekom" class="form-label">Nomor Pengajuan</label>
+                                <input type="text" name="noPengajuanRekom" id="noPengajuanRekom" class="form-control" placeholder="masukan nomor pengajuan">
+                                <div id="validationServer04Feedback" class="invalid-feedback error-nomor">
 
                                 </div>
                             </div>
@@ -226,6 +234,7 @@
         let dokumen_lainnya = $("#dokumen_lainnya").val();
         let tanggal_pengajuan = $("#tanggal_pengajuan").val();
         let status_perizinan_id = $("#status_perizinan_id").val();
+        let noPengajuanRekom = $("#noPengajuanRekom").val();
 
         let formData = new FormData(this);
 
@@ -237,6 +246,7 @@
         formData.append('dokumen_lainnya', dokumen_lainnya);
         formData.append('tanggal_pengajuan', tanggal_pengajuan);
         formData.append('status_perizinan_id', status_perizinan_id);
+        formData.append('noPengajuanRekom', noPengajuanRekom);
 
         $.ajax({
             url: '/backoffice/form_pengajuan_rekomendasi/insert',
@@ -277,6 +287,14 @@
                     } else {
                         $("#users_id").removeClass('is-invalid');
                         $(".error-users-management").html('');
+                    }
+
+                    if (response.error.noPengajuanRekom) {
+                        $("#noPengajuanRekom").addClass('is-invalid');
+                        $(".error-nomor").html(response.error.noPengajuanRekom);
+                    } else {
+                        $("#noPengajuanRekom").removeClass('is-invalid');
+                        $(".error-nomor").html('');
                     }
                     if (response.error.dokumen_surat_pengantar) {
                         $("#dokumen_surat_pengantar").addClass('is-invalid');

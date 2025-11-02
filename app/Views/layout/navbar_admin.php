@@ -64,17 +64,7 @@
                           </div>
                       </a>
                   </li>
-                  <li class="sidebar-item">
-                      <a class="sidebar-link justify-content-between"
-                          href="/backoffice/jenis_kendaraan">
-                          <div class="d-flex align-items-center gap-3">
-                              <div class="round-16 d-flex align-items-center justify-content-center">
-                                  <i class="ti ti-circle"></i>
-                              </div>
-                              <span class="hide-menu">Jenis Kendaraan</span>
-                          </div>
-                      </a>
-                  </li>
+
                   <li class="sidebar-item">
                       <a class="sidebar-link justify-content-between"
                           href="/backoffice/surat_pengantar">
@@ -94,17 +84,6 @@
                                   <i class="ti ti-circle"></i>
                               </div>
                               <span class="hide-menu">Jenis Perizinan</span>
-                          </div>
-                      </a>
-                  </li>
-                  <li class="sidebar-item">
-                      <a class="sidebar-link justify-content-between"
-                          href="/backoffice/kode_kendaraan">
-                          <div class="d-flex align-items-center gap-3">
-                              <div class="round-16 d-flex align-items-center justify-content-center">
-                                  <i class="ti ti-circle"></i>
-                              </div>
-                              <span class="hide-menu">Kode Trayek Kendaraan</span>
                           </div>
                       </a>
                   </li>

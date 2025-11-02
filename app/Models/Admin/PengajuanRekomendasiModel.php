@@ -52,8 +52,9 @@ class PengajuanRekomendasiModel extends Model
         $db = db_connect();
         $builder = $db->table($this->table);
 
-        $builder = $builder->select('pengajuan_rekomendasi_table.id, pengajuan_rekomendasi_table.users_id, pengajuan_rekomendasi_table.surat_pengantar_id, pengajuan_rekomendasi_table.jenis_perizinan_id, pengajuan_rekomendasi_table.status_perizinan_id, pengajuan_rekomendasi_table.tanggal_pengajuan, pengajuan_rekomendasi_table.noPengajuanRekom, pengantar_perizinan_table.surat_pengantar, jenis_perizinan_table.jenis_perizinan, status_perizinan_table.status_perizinan, users_management_table.nama_lengkap, pengajuan_rekomendasi_table.noPengajuanRekom')
+        $builder = $builder->select('pengajuan_rekomendasi_table.id, pengajuan_rekomendasi_table.users_id, pengajuan_rekomendasi_table.surat_pengantar_id, pengajuan_rekomendasi_table.jenis_perizinan_id, pengajuan_rekomendasi_table.status_perizinan_id, pengajuan_rekomendasi_table.tanggal_pengajuan, pengajuan_rekomendasi_table.noPengajuanRekom, pengantar_perizinan_table.surat_pengantar, jenis_perizinan_table.jenis_perizinan, status_perizinan_table.status_perizinan, users_management_table.nama_lengkap, pengajuan_rekomendasi_table.noPengajuanRekom, profil_users_table.nama_perusahaan')
             ->join('users_management_table', 'users_management_table.id = pengajuan_rekomendasi_table.users_id')
+            ->join('profil_users_table', 'profil_users_table.users_id = users_management_table.id')
             ->join('pengantar_perizinan_table', 'pengantar_perizinan_table.id = pengajuan_rekomendasi_table.surat_pengantar_id')
             ->join('jenis_perizinan_table', 'jenis_perizinan_table.id = pengajuan_rekomendasi_table.jenis_perizinan_id')
             ->join('status_perizinan_table', 'status_perizinan_table.id = pengajuan_rekomendasi_table.status_perizinan_id');

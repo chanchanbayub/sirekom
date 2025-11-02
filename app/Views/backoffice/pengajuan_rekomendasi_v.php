@@ -279,7 +279,7 @@
                     orderable: true
                 },
                 {
-                    data: 'nama_lengkap',
+                    data: 'nama_perusahaan',
                     orderable: true
                 },
                 {
