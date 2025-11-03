@@ -237,7 +237,7 @@
 
         $.ajax({
             url: '/search/',
-            method: 'post',
+            method: 'get',
             dataType: 'JSON',
             data: {
                 noPengajuanRekom: noPengajuanRekom,
