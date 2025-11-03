@@ -122,14 +122,14 @@ $routes->group('backoffice', static function ($routes) {
     $routes->post('database_kendaraan_terintegrasi/update', 'Admin\DatabaseTerintegrasiController::update');
     $routes->post('database_kendaraan_terintegrasi/delete', 'Admin\DatabaseTerintegrasiController::delete');
 
-    $routes->get('database_kendaraan_data', 'Admin\DataBaseKendaraanController::index');
-    $routes->get('database_kendaraan_data/(:any)', 'Admin\DataBaseKendaraanController::view/$1');
-    $routes->post('getDataKendaraan2014/(:any)', 'Admin\DataBaseKendaraanController::getKendaraanDataTable/$1');
-    $routes->post('database_kendaraan_data/insert', 'Admin\DataBaseKendaraanController::insert');
-    $routes->post('database_kendaraan_data/getDataKendaraan', 'Admin\DataBaseKendaraanController::getDataKendaraan');
-    $routes->get('database_kendaraan_data/view', 'Admin\DataBaseKendaraanController::view');
-    $routes->post('database_kendaraan_data/update', 'Admin\DataBaseKendaraanController::update');
-    $routes->post('database_kendaraan_data/delete', 'Admin\DataBaseKendaraanController::delete');
+    $routes->get('database_kendaraan_data', 'Admin\DatabaseKendaraanController::index');
+    $routes->get('database_kendaraan_data/(:any)', 'Admin\DatabaseKendaraanController::view/$1');
+    $routes->post('getDataKendaraan2014/(:any)', 'Admin\DatabaseKendaraanController::getKendaraanDataTable/$1');
+    $routes->post('database_kendaraan_data/insert', 'Admin\DatabaseKendaraanController::insert');
+    $routes->post('database_kendaraan_data/getDataKendaraan', 'Admin\DatabaseKendaraanController::getDataKendaraan');
+    $routes->get('database_kendaraan_data/view', 'Admin\DatabaseKendaraanController::view');
+    $routes->post('database_kendaraan_data/update', 'Admin\DatabaseKendaraanController::update');
+    $routes->post('database_kendaraan_data/delete', 'Admin\DatabaseKendaraanController::delete');
 
     //Pengajuan Rekomendasi
     $routes->get('pengajuan_rekom', 'Admin\PengajuanRekomendasiController::index');
