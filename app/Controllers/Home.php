@@ -42,7 +42,7 @@ class Home extends BaseController
                 ];
             } else {
 
-                $noPengajuanRekom = $this->request->getPost('noPengajuanRekom');
+                $noPengajuanRekom = $this->request->getVar('noPengajuanRekom');
 
                 $pengajuan_rekomendasi = $this->pengajuanRekomendasiModel->getPengajuanRekomWhereNoPengajuan($noPengajuanRekom);
 
