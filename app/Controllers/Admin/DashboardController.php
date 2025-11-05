@@ -7,6 +7,7 @@ use App\Models\Admin\DatabaseKendaraanModel;
 use App\Models\Admin\DatabaseTerintegrasiModel;
 use App\Models\Admin\FetchModel;
 use App\Models\Admin\KendaraanModel;
+use App\Models\Admin\PengajuanRekomendasiModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class DashboardController extends BaseController
@@ -15,6 +16,7 @@ class DashboardController extends BaseController
     protected $dataBaseKendaraanModel;
     protected $kendaraanTerintegrasiModel;
     protected $client;
+    protected $pengajuanRekomendasiModel;
     protected $fetchModel;
 
 
@@ -23,12 +25,15 @@ class DashboardController extends BaseController
         $this->kendaraanModel = new KendaraanModel();
         $this->dataBaseKendaraanModel = new DatabaseKendaraanModel();
         $this->kendaraanTerintegrasiModel = new DatabaseTerintegrasiModel();
+        $this->pengajuanRekomendasiModel = new PengajuanRekomendasiModel();
         $this->client = service('curlrequest');
         $this->fetchModel = new FetchModel();
     }
 
     public function index()
     {
+
+
 
         $db_ptsp = $this->kendaraanModel->countAllResults();
         $db_terintegrasi = $this->kendaraanTerintegrasiModel->countAllResults();
@@ -74,12 +79,24 @@ class DashboardController extends BaseController
             }
         }
 
+        $status_pengajuan = $this->pengajuanRekomendasiModel->where(["status_perizinan_id" => 1])->countAllResults();
+        $status_pengajuan_validasi = $this->pengajuanRekomendasiModel->where(["status_perizinan_id" => 2])->countAllResults();
+        $status_pengajuan_eoffice = $this->pengajuanRekomendasiModel->where(["status_perizinan_id" => 3])->countAllResults();
+        $status_pengajuan_terbit = $this->pengajuanRekomendasiModel->where(["status_perizinan_id" => 4])->countAllResults();
+        $status_pengajuan_ditolak = $this->pengajuanRekomendasiModel->where(["status_perizinan_id" => 5])->countAllResults();
+
+        $total_pengajuan_rekom = $this->pengajuanRekomendasiModel->countAllResults();
 
         $data = [
             'title' => 'Dashboard SIREKOM',
             'operator_data' => $operator_data,
-            'total_kendaraan' => $total_kendaraan
-
+            'total_kendaraan' => $total_kendaraan,
+            'status_pengajuan' => $status_pengajuan,
+            'status_pengajuan_validasi' => $status_pengajuan_validasi,
+            'status_pengajuan_eoffice' => $status_pengajuan_eoffice,
+            'status_pengajuan_terbit' => $status_pengajuan_terbit,
+            'status_pengajuan_ditolak' => $status_pengajuan_ditolak,
+            'total_pengajuan' => $total_pengajuan_rekom,
         ];
 
         return view('backoffice/dashboard_v', $data);
