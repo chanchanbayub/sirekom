@@ -37,6 +37,7 @@
                                         <th scope="col">Alamat</th>
                                         <th scope="col">Tahun</th>
                                         <th scope="col">Merk</th>
+                                        <th scope="col">Jenis Kendaraan</th>
                                         <th scope="col">Awal Masa Berlaku</th>
                                         <th scope="col">Habis Masa Berlaku</th>
                                         <th scope="col">Tanggal Penerbitan</th>
@@ -106,6 +107,10 @@
                 },
                 {
                     data: 'merk',
+                    orderable: true
+                },
+                {
+                    data: 'jenis_kendaraan',
                     orderable: true
                 },
                 {
