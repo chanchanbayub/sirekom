@@ -23,7 +23,7 @@
                             <div class="col-sm-4 mb-3 mb-sm-0">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title badge text-bg-secondary">Status Pengajuan Rekomendasi</h5>
+                                        <h5 class="card-title badge text-bg-success">Status Pengajuan Rekomendasi</h5>
                                         <h3 class="card-text"><?= $status_pengajuan ?> Pengajuan</h3>
                                         <!-- <p class="card-text"></p> -->
                                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -33,7 +33,7 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title badge text-bg-secondary">Status Validasi</h5>
+                                        <h5 class="card-title badge text-bg-success">Status Validasi</h5>
                                         <h3 class="card-text"><?= $status_pengajuan_validasi ?> Pengajuan</h3>
                                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                     </div>
@@ -42,7 +42,7 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title badge text-bg-secondary">Status E-Office</h5>
+                                        <h5 class="card-title badge text-bg-success">Status E-Office</h5>
                                         <h3 class="card-text"><?= $status_pengajuan_eoffice ?> Pengajuan</h3>
                                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                     </div>
@@ -51,7 +51,7 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title badge text-bg-secondary">Status Rekomendasi Terbit</h5>
+                                        <h5 class="card-title badge text-bg-success">Status Rekomendasi Terbit</h5>
                                         <h3 class="card-text"><?= $status_pengajuan_terbit ?> Terbit</h3>
                                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                     </div>
@@ -60,7 +60,7 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title badge text-bg-secondary">Status Ditolak</h5>
+                                        <h5 class="card-title badge text-bg-success">Status Ditolak</h5>
                                         <h3 class="card-text"><?= $status_pengajuan_ditolak ?> Ditolak</h3>
                                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                     </div>
@@ -70,7 +70,7 @@
                             <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title badge text-bg-secondary">Total Pengajuan Rekomendasi</h5>
+                                        <h5 class="card-title badge text-bg-success">Total Pengajuan Rekomendasi</h5>
                                         <h3 class="card-text"><?= $total_pengajuan ?> Telah Diajukan</h3>
                                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                     </div>
