@@ -66,12 +66,31 @@ class DatabaseTerintegrasiModel extends Model
 
     public function getWhereNomorKendaraan($nomor_kendaraan)
     {
-
-
         return $this->table($this->table)
             ->select("database_terintegrasi_table.id, database_terintegrasi_table.nomor_kendaraan, database_terintegrasi_table.jenis_kendaraan ,database_terintegrasi_table.merk,database_terintegrasi_table.kode_trayek, database_terintegrasi_table.trayek_lama, database_terintegrasi_table.operator, database_terintegrasi_table.tahun_pembuatan")
             ->where(["database_terintegrasi_table.nomor_kendaraan" => $nomor_kendaraan])
             ->orderBy('database_terintegrasi_table.id desc')
             ->get()->getRowObject();
+    }
+
+    public function getJenisKendaraanTerintegrasi()
+    {
+        return $this->table($this->table)
+            ->select("DISTINCT(database_terintegrasi_table.jenis_kendaraan) AS jenis_kendaraan")
+            // ->select('id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('database_terintegrasi_table.jenis_kendaraan asc')
+            ->get()->getResultObject();
+    }
+
+    public function getDataKendaraanTerintegrasiWhereJenisKendaraan($jenis_kendaraan)
+    {
+        return $this->table($this->table)
+            ->select("database_terintegrasi_table.jenis_kendaraan")
+            ->where(["jenis_kendaraan" => $jenis_kendaraan])
+            // ->select('database_kendaraan_table.id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('database_terintegrasi_table.id desc')
+            ->get()->getResultObject();
     }
 }

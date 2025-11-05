@@ -108,9 +108,10 @@ class DatabaseKendaraanController extends BaseController
                         'alamat' => $value['5'],
                         'tahun' => $value['6'],
                         'merk' => $value['7'],
-                        'awal_masa_berlaku' => $value['8'],
-                        'habis_masa_berlaku' => $value['9'],
-                        'tanggal_penerbitan' => $value['10'],
+                        'jenis_kendaraan' => $value['8'],
+                        'awal_masa_berlaku' => $value['9'],
+                        'habis_masa_berlaku' => $value['10'],
+                        'tanggal_penerbitan' => $value['11'],
 
                     ]);
                 }

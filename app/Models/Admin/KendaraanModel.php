@@ -106,4 +106,25 @@ class KendaraanModel extends Model
             ->orderBy('database_kendaraan_table.id desc')
             ->get()->getRowArray();
     }
+
+    public function getJenisKendaraan()
+    {
+        return $this->table($this->table)
+            ->select("DISTINCT(database_kendaraan_table.jenis_kendaraan) AS jenis_kendaraan")
+            // ->select('id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('database_kendaraan_table.id desc')
+            ->get()->getResultObject();
+    }
+
+    public function getJenisKendaraanWhereJenis($jenis_kendaraan)
+    {
+        return $this->table($this->table)
+            ->select("database_kendaraan_table.jenis_kendaraan")
+            ->where(["jenis_kendaraan" => $jenis_kendaraan])
+            // ->select('id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('database_kendaraan_table.id desc')
+            ->get()->getResultObject();
+    }
 }

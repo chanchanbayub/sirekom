@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/search', 'Home::search');
+$routes->get('/database_terdaftar', 'Home::database_terdaftar');
 
 
 // $routes->get('/auth/login', 'Auth\LoginController::index');

@@ -55,7 +55,7 @@
                                     <?php endif; ?>
                                     <tr>
                                         <td colspan="2" style="text-align: center; text-transform:uppercase"><b> Total Kendaraan : </b></td>
-                                        <td colspan="2" style="text-align: center; text-transform:uppercase"> <b><?= number_format($total_kendaraan) ?> Kendaraan</b></td>
+                                        <td colspan="2" style="text-align: center; text-transform:uppercase"> <b><?= number_format($total_kendaraan_ptsp) ?> Kendaraan</b></td>
                                     </tr>
                                 </tbody>
                             </table>
