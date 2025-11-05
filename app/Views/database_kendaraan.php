@@ -35,6 +35,26 @@
                 <div class="card shadow border-0 rounded-4 mb-5">
                     <div class="card-body p-5">
                         <div class="row align-items-center gx-5">
+                            <div class="col-lg-6">
+                                <h5 class="text-capitalize text-center">Kode Trayek Yang Terdaftar Di PTSP : <?= number_format(count($kode_trayek_reguler)) ?> Kode Trayek </h5>
+                                <hr>
+                            </div>
+                            <div class="col-lg-6">
+                                <h5 class="text-capitalize text-center">Kode Trayek Yang Terdaftar Di DB 2014 : <?= number_format(count($trayek)) ?> Kode Trayek </h5>
+                                <hr>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Experience Card 2-->
+            </section>
+
+            <section>
+                <!-- Experience Card 1-->
+                <div class="card shadow border-0 rounded-4 mb-5">
+                    <div class="card-body p-5">
+                        <div class="row align-items-center gx-5">
                             <div class="col-lg-4">
                                 <h4 class="text-capitalize text-center">Jenis Kendaraan DB 2014 </h4>
                                 <hr>
@@ -178,6 +198,43 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card shadow border-0 rounded-4 mb-5">
+                    <div class="card-body p-5">
+                        <div class="row align-items-center gx-5">
+                            <div class="col-lg-12">
+                                <h3 class="text-capitalize">Kode Trayek Kendaraan yang terdaftar di Database 2014</h3>
+                                <hr>
+                                <div class="table_responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Kode Trayek</th>
+                                                <th scope="col">Jumlah</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+                                            <?php $no = 1; ?>
+                                            <?php foreach ($trayek as $trayek) : ?>
+                                                <tr>
+                                                    <td><?= $no++ ?></td>
+                                                    <td><?= $trayek["kode_trayek"] ?></td>
+                                                    <td><?= number_format($trayek["jumlah"]) ?> Kendaraan</td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            <tr>
+                                                <td colspan="2"> TOTAL :</td>
+                                                <td colspan="1"> <b><?= number_format($total_kendaraan_2014); ?> Kendaraan</b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Experience Card 2-->
             </section>
             <!-- Experience Section-->
@@ -212,6 +269,50 @@
 
                                                 </tr>
                                             <?php endforeach; ?>
+                                            <tr>
+                                                <td colspan="2" style="text-align: center; text-transform:uppercase"><b> Total Kendaraan : </b></td>
+                                                <td colspan="2" style="text-align: center; text-transform:uppercase"> <b><?= number_format($total_kendaraan_ptsp) ?> Kendaraan</b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Experience Card 2-->
+            </section>
+
+            <section>
+                <!-- Experience Card 1-->
+                <div class="card shadow border-0 rounded-4 mb-5">
+                    <div class="card-body p-5">
+                        <div class="row align-items-center gx-5">
+                            <div class="col-lg-12">
+                                <h3 class="text-capitalize">Kode Trayek yang terdaftar di PTSP</h3>
+
+                                <hr>
+                                <div class="table_responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Kode Trayek</th>
+                                                <th scope="col" class="text-center">Jumlah Kendaraan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+                                            <?php $no = 1; ?>
+                                            <?php foreach ($kode_trayek_reguler as $kode): ?>
+                                                <tr>
+                                                    <th scope="row"><?= $no++ ?></th>
+                                                    <td><?= $kode["kode_trayek_reguler"] ?></td>
+                                                    <td class="text-center"><?= number_format($kode["jumlah"])  ?> Kendaraan</td>
+
+
+                                                </tr>
+                                            <?php endforeach; ?>
+
                                             <tr>
                                                 <td colspan="2" style="text-align: center; text-transform:uppercase"><b> Total Kendaraan : </b></td>
                                                 <td colspan="2" style="text-align: center; text-transform:uppercase"> <b><?= number_format($total_kendaraan_ptsp) ?> Kendaraan</b></td>
@@ -282,80 +383,5 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
-<script>
-    $("#search_form").submit(function(e) {
-        e.preventDefault();
-
-        let noPengajuanRekom = $("#noPengajuanRekom").val();
-
-        $.ajax({
-            url: '/search/',
-            method: 'get',
-            dataType: 'JSON',
-            data: {
-                noPengajuanRekom: noPengajuanRekom,
-            },
-            beforeSend: function() {
-                $('.search').html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>Loading...");
-                $('.search').prop('disabled', true);
-            },
-            success: function(response) {
-                $('.search').html('<i class="bi bi-search"></i> Cek Pengajuan Rekom');
-                $('.search').prop('disabled', false);
-                if (response.error) {
-                    if (response.error.noPengajuanRekom) {
-                        $("#noPengajuanRekom").addClass('is-invalid');
-                        $(".error-pengajuan").html(response.error.noPengajuanRekom);
-                    } else {
-                        $("#noPengajuanRekom").removeClass('is-invalid');
-                        $(".error-pengajuan").html('');
-                    }
-
-
-                } else if (response.null) {
-
-                    $("#exampleModal").modal('hide');
-
-                    Swal.fire({
-                        icon: 'error',
-                        title: `Data Tidak Ditemukan`,
-                    });
-                    $('.search').html('<i class="bi bi-search"></i> Cek Pengajuan Rekom');
-                    $('.search').prop('disabled', false);
-
-                    $("#noPengajuanRekom").val('');
-                    $("#tanggal_pengajuan").val('');
-
-                } else {
-                    $("#exampleModal").modal('hide');
-
-                    $("#rekomView").modal('show');
-
-                    $table_data = `<tr>
-                                   <th scope="row">1</th>
-                                   <td>${response.pengajuan_rekom.noPengajuanRekom}</td>
-                                   <td>${response.pengajuan_rekom.surat_pengantar}</td>
-                                   <td>${response.pengajuan_rekom.jenis_perizinan}</td>
-                                   <td>${response.pengajuan_rekom.tanggal_pengajuan}</td>
-                                   <td>${(response.pengajuan_rekom.tanggal_surat) == null ? "Belum Approval" : response.pengajuan_rekom.tanggal_surat}</td>
-                                   <td><a href="${(response.pengajuan_rekom.surat_rekomendasi) == null ? "#" : "../rekomendasi/" + response.pengajuan_rekom.surat_rekomendasi}" class="btn btn-sm btn-outline-success"> Download</a> </td>
-                                   <td><span class="badge text-bg-success">${response.pengajuan_rekom.status_perizinan}</span></td>
-                                 </tr>`;
-
-                    $("#table_data").html($table_data)
-                }
-            },
-            error: function() {
-
-                Swal.fire({
-                    icon: 'error',
-                    title: `Data Belum Tersimpan!`,
-                });
-                $('.search').html('<i class="bi bi-search"></i> Cek Pengajuan Rekom');
-                $('.search').prop('disabled', false);
-            }
-        });
-    });
-</script>
 
 <?= $this->endSection(); ?>

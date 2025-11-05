@@ -76,8 +76,18 @@ class Home extends BaseController
         // db_ptsp
         $kendaraan = $this->kendaraanModel->getDataKendaraan();
         $total_kendaraan_ptsp = $this->kendaraanModel->countAllResults();
-
         $jenis_kendaraan_ptsp = $this->kendaraanModel->getJenisKendaraan();
+
+        $kode_trayek_reguler = $this->kendaraanModel->getTrayekReguler();
+
+        foreach ($kode_trayek_reguler as $kode_trayek) {
+            $kode = $this->kendaraanModel->getKendaraanWhereKodeTrayek($kode_trayek->kode_trayek_reguler);
+
+            $trayek_reguler[] = [
+                'kode_trayek_reguler' => $kode_trayek->kode_trayek_reguler,
+                'jumlah' => count($kode)
+            ];
+        }
 
         foreach ($jenis_kendaraan_ptsp as $jenis_kendaraan) {
 
@@ -107,7 +117,17 @@ class Home extends BaseController
         $total_db_2014 = $this->dataBaseKendaraanModel->countAllResults();
 
         $jenis_kendaraan_2014 = $this->dataBaseKendaraanModel->getDataJenisKendaraan();
-        // dd($jenis_kendaraan_2014);
+
+        $kode_trayek = $this->dataBaseKendaraanModel->getKodeTrayek();
+
+        foreach ($kode_trayek as $kode_trayek) {
+            $kode = $this->dataBaseKendaraanModel->getKodeTrayek2014($kode_trayek->kode_trayek);
+
+            $trayek[] = [
+                'kode_trayek' => $kode_trayek->kode_trayek,
+                'jumlah' => count($kode)
+            ];
+        }
 
         foreach ($jenis_kendaraan_2014 as $jenis_kendaraan_2014) {
 
@@ -162,11 +182,13 @@ class Home extends BaseController
             'total_kendaraan_ptsp' => $total_kendaraan_ptsp,
             'jumlah_operator_ptsp' => count($kendaraan),
             'jenis_kendaraan_ptsp_data' => $jenis_kendaaraan_ptsp_data,
+            'kode_trayek_reguler' => $trayek_reguler,
 
             'operator_2014' => $operator_2014,
             'total_kendaraan_2014' => $total_db_2014,
             'jumlah_operator_2014' => count($kendaraan_2014),
             'jenis_kendaraan_2014' => $jenis_kendaaraan_2014_data,
+            'trayek' => $trayek,
 
             'operator_terintegrasi' => $operator_terintegrasi,
             'total_kendaraan_terintegrasi' => $total_kendaraan_terintegrasi,

@@ -93,4 +93,25 @@ class DatabaseKendaraanModel extends Model
             ->orderBy('data_base_kendaraan_2014_table.id desc')
             ->get()->getResultObject();
     }
+
+    public function getKodeTrayek()
+    {
+        return $this->table($this->table)
+            ->select("DISTINCT(data_base_kendaraan_2014_table.kode_trayek) AS kode_trayek")
+            // ->select('id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('data_base_kendaraan_2014_table.id desc')
+            ->get()->getResultObject();
+    }
+
+    public function getKodeTrayek2014($kode_trayek)
+    {
+        return $this->table($this->table)
+            ->select("data_base_kendaraan_2014_table.kode_trayek")
+            ->where(["data_base_kendaraan_2014_table.kode_trayek" => $kode_trayek])
+            // ->select('database_kendaraan_table.id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('data_base_kendaraan_2014_table.id desc')
+            ->get()->getResultObject();
+    }
 }

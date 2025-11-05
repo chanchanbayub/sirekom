@@ -127,4 +127,25 @@ class KendaraanModel extends Model
             ->orderBy('database_kendaraan_table.id desc')
             ->get()->getResultObject();
     }
+
+    public function getTrayekReguler()
+    {
+        return $this->table($this->table)
+            ->select("DISTINCT(database_kendaraan_table.kode_trayek_reguler) AS kode_trayek_reguler")
+            // ->select('id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('database_kendaraan_table.id desc')
+            ->get()->getResultObject();
+    }
+
+    public function getKendaraanWhereKodeTrayek($kode_trayek_reguler)
+    {
+        return $this->table($this->table)
+            ->select("database_kendaraan_table.kode_trayek_reguler")
+            ->where(["kode_trayek_reguler" => $kode_trayek_reguler])
+            // ->select('id')
+            // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")
+            ->orderBy('database_kendaraan_table.id desc')
+            ->get()->getResultObject();
+    }
 }
