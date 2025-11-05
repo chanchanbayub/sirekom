@@ -152,7 +152,7 @@ $routes->group('backoffice', static function ($routes) {
     $routes->get('validasi_rekom/edit_disabled_data', 'Admin\ValidasiRekomController::edit_disabled');
     $routes->post('validasi_rekom/post', 'Admin\ValidasiRekomController::post');
 
-    $routes->get('export_word', 'Word\WordController::index');
+
 
     $routes->get('surat_rekomendasi', 'Admin\SuratRekomendasiController::index');
     $routes->post('surat_rekomendasi/insert', 'Admin\SuratRekomendasiController::insert');
@@ -160,8 +160,9 @@ $routes->group('backoffice', static function ($routes) {
     $routes->post('surat_rekomendasi/getSurat', 'Admin\SuratRekomendasiController::getSurat');
     // $routes->get('surat_rekomendasi/(:any)', 'Admin\SuratRekomendasiController::view/$1');
 
-
     // $routes->get('surat_rekomendasi/view', 'Admin\SuratRekomendasiController::view');
     $routes->post('surat_rekomendasi/update', 'Admin\SuratRekomendasiController::update');
     $routes->post('surat_rekomendasi/delete', 'Admin\SuratRekomendasiController::delete');
+
+    $routes->get('export_excel/(:any)', 'Admin\PengajuanRekomendasiController::excel/$1');
 });

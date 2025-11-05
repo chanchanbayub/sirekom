@@ -260,7 +260,9 @@ class PengajuanRekomendasiController extends BaseController
                 'users_management' => $this->profilUsersModel->getProfilUsersWhereUsersId($pengajuan_rekom->users_id),
                 'tanggal_hari_ini' => $tanggal_hari_ini,
                 'kendaraan_berlaku' => $kendaraan_berlaku,
-                'kendaraan_tidak_berlaku' => $kendaraan_tidak_berlaku
+                'kendaraan_tidak_berlaku' => $kendaraan_tidak_berlaku,
+                'id' => $id,
+                'id_pengajuan_rekom' => $id_pengajuan_rekom
             ];
 
             return view('backoffice/detail_pengajuan_rekom_perbaikan_v', $data);
@@ -536,6 +538,157 @@ class PengajuanRekomendasiController extends BaseController
             }
 
             return json_encode($alert);
+        }
+    }
+
+
+    public function excel($id, $id_pengajuan_rekom)
+    {
+        $pengajuan_rekom = $this->pengajuanRekomendasiModel->getPengajuanRekomWhereId($id);
+        // dd($pengajuan_rekom);
+
+        if ($pengajuan_rekom == null) {
+            return redirect()->back();
+        }
+
+        $data_kendaraan = $this->pengajuanKendaraanModel->getIdPengajuanRekom($id_pengajuan_rekom);
+
+        if ($data_kendaraan == null) {
+            return redirect()->back();
+        }
+
+        $terdaftar_ptsp = [];
+        $tidak_terdaftar_ptsp = [];
+
+        $kendaraan_berlaku = [];
+        $kendaraan_tidak_berlaku = [];
+
+        $tanggal_hari_ini = date('Y-m-d');
+
+        if ($pengajuan_rekom->surat_pengantar_id == 1) {
+            if ($pengajuan_rekom->jenis_perizinan_id == 1 || $pengajuan_rekom->jenis_perizinan_id == 2 || $pengajuan_rekom->jenis_perizinan_id == 3) {
+                foreach ($data_kendaraan as $kendaraan) {
+                    $validasi_cek_kir = $this->fetchModel->FetchModel($kendaraan->nomor_kendaraan);
+                    if ($validasi_cek_kir["message"] == "Success") {
+                        $tanggal_masa_berlaku = $validasi_cek_kir["data"]["tgl_berlaku_uji"];
+
+                        $bulan = [
+                            'Januari' => '01',
+                            'Februari' => '02',
+                            'Maret' => '03',
+                            'April' => '04',
+                            'Mei' => '05',
+                            'Juni' => '06',
+                            'Juli' => '07',
+                            'Agustus' => '08',
+                            'September' => '09',
+                            'Oktober' => '10',
+                            'November' => '11',
+                            'Desember' => '12'
+                        ];
+
+                        $tanggal = preg_replace('/^[^,]+, /', '', $tanggal_masa_berlaku); // hasil: "10 Oktober 2025"
+                        list($hari, $namaBulan, $tahun) = explode(' ', $tanggal);
+
+                        $formatDate = "$tahun-{$bulan[$namaBulan]}-$hari";
+
+                        $api_data_kendaraan[] = [
+                            'id_pengajuan_rekom' => $kendaraan->id_pengajuan_rekom,
+                            'id' => $kendaraan->id,
+                            'kode_trayek' => $kendaraan->kode_trayek,
+                            'nomor_kendaraan' => $kendaraan->nomor_kendaraan,
+                            'merk_kendaraan' => $validasi_cek_kir["data"]["merk"],
+                            'tahun' => $validasi_cek_kir["data"]["tahun_buat"],
+                            'nama' => $validasi_cek_kir["data"]["nama"],
+                            'nouji_cek_kir' => $validasi_cek_kir["data"]["nouji"],
+                            'nouji_upload' => $kendaraan->nouji,
+                            'chasis' => $validasi_cek_kir["data"]["chasis"],
+                            'mesin' => $validasi_cek_kir["data"]["mesin"],
+                            'lokasi_uji' => $validasi_cek_kir["data"]["lokasi_uji"],
+                            'tgl_berlaku_uji' => $validasi_cek_kir["data"]["tgl_berlaku_uji"],
+                            'perbandingan' => $formatDate
+                        ];
+
+                        if ($formatDate > $tanggal_hari_ini) {
+                            $kendaraan_berlaku[] = [
+                                'id_pengajuan_rekom' => $kendaraan->id_pengajuan_rekom,
+                                'id' => $kendaraan->id,
+                                'nomor_kendaraan' => $validasi_cek_kir["data"]["nopol"],
+                                'tgl_berlaku_uji' => $validasi_cek_kir["data"]["tgl_berlaku_uji"]
+                            ];
+                        }
+                        if ($formatDate < $tanggal_hari_ini) {
+                            $kendaraan_tidak_berlaku[] = [
+                                'id_pengajuan_rekom' => $kendaraan->id_pengajuan_rekom,
+                                'id' => $kendaraan->id,
+                                'nomor_kendaraan' => $validasi_cek_kir["data"]["nopol"],
+                                'tgl_berlaku_uji' => $validasi_cek_kir["data"]["tgl_berlaku_uji"]
+                            ];
+                        }
+                    }
+                }
+
+                foreach ($api_data_kendaraan as $data_kr) {
+                    $data_ptsp = $this->kendaraanModel->getRowKendaraan($data_kr["nomor_kendaraan"]);
+                    $ptsp = (object) $data_ptsp;
+                    if ($data_ptsp != null) {
+                        $terdaftar_ptsp[] = [
+                            'id' => $ptsp->id,
+                            'nomor_kendaraan' => $ptsp->nomor_kendaraan,
+                            'kode_trayek' => $ptsp->kode_trayek_reguler,
+                            'merk_kendaraan_sebelumnya' => $ptsp->merk,
+                            'merk_kendaraan_cek_kir' => $data_kr["merk_kendaraan"],
+                            'nomor_uji_sebelumnya' => $ptsp->nomor_uji,
+                            'nomor_uji_cek_kir' => $data_kr["nouji_cek_kir"],
+                            'nomor_rangka_sebelumnya' => $ptsp->nomor_rangka,
+                            'nomor_rangka_cek_kir' => $data_kr["chasis"],
+                            'nomor_mesin_sebelumnya' => $ptsp->nomor_mesin,
+                            'nomor_mesin_cek_kir' => $data_kr["mesin"],
+                            'tahun_pembuatan_sebelumnya' => $ptsp->tahun_pembuatan,
+                            'tahun_pembuatan_cek_kir' => $data_kr["tahun"],
+                            'tgl_berlaku_uji' => $data_kr["tgl_berlaku_uji"],
+                            'perbandingan' => $data_kr["perbandingan"]
+                        ];
+                    } else {
+                        $tidak_terdaftar_ptsp[] = [
+                            'nomor_kendaraan' => $data_kr["nomor_kendaraan"],
+                            'kode_trayek' => $data_kr["kode_trayek"],
+                            'merk' => $data_kr["merk_kendaraan"],
+                            'nomor_uji_cek_kir' => $data_kr["nouji_cek_kir"],
+                            'nomor_rangka_cek_kir' => $data_kr["chasis"],
+                            'nomor_mesin_cek_kir' => $data_kr["mesin"],
+                            'tahun_pembuatan_cek_kir' => $data_kr["tahun"],
+                            'tgl_berlaku_uji' => $data_kr["tgl_berlaku_uji"],
+                            'perbandingan' => $data_kr["perbandingan"]
+                        ];
+                    }
+                }
+
+                foreach ($terdaftar_ptsp as $perbaikan_data) {
+                    $data_ptsp = $this->kendaraanModel->getRowKendaraan($perbaikan_data["nomor_kendaraan"]);
+
+                    if ($data_ptsp["merk"] != $perbaikan_data["merk_kendaraan_cek_kir"]) {
+                        $this->kendaraanModel->update($id, [
+                            'merk' => $perbaikan_data["merk_kendaraan_cek_kir"]
+                        ]);
+                    }
+                }
+            }
+
+            $data = [
+                'title' => 'Pengajuan Perbaikan Data',
+                'jumlah_pengajuan' => count($data_kendaraan),
+                'terdaftar_ptsp' => $terdaftar_ptsp,
+                'tidak_terdaftar_ptsp' => $tidak_terdaftar_ptsp,
+                'pengajuan_rekom' => $pengajuan_rekom,
+                'users_management' => $this->profilUsersModel->getProfilUsersWhereUsersId($pengajuan_rekom->users_id),
+                'tanggal_hari_ini' => $tanggal_hari_ini,
+                'kendaraan_berlaku' => $kendaraan_berlaku,
+                'kendaraan_tidak_berlaku' => $kendaraan_tidak_berlaku,
+
+            ];
+
+            return view('excel/export_excel_v', $data);
         }
     }
 }

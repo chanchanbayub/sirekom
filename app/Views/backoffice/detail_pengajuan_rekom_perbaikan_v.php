@@ -340,13 +340,19 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($kendaraan_tidak_berlaku as $tidak_berlaku) : ?>
+                                    <?php if ($kendaraan_tidak_berlaku != null) : ?>
+                                        <?php foreach ($kendaraan_tidak_berlaku as $tidak_berlaku) : ?>
+                                            <tr>
+                                                <td scope="col"><?= $no++ ?></td>
+                                                <td scope="col"><?= $tidak_berlaku["nomor_kendaraan"] ?></td>
+                                                <td scope="col"><span class="badge text-bg-danger"><?= $tidak_berlaku["tgl_berlaku_uji"] ?></span></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
                                         <tr>
-                                            <td scope="col"><?= $no++ ?></td>
-                                            <td scope="col"><?= $tidak_berlaku["nomor_kendaraan"] ?></td>
-                                            <td scope="col"><span class="badge text-bg-danger"><?= $tidak_berlaku["tgl_berlaku_uji"] ?></span></td>
+                                            <td colspan="3" align="center">Tidak Ada Data</td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -355,23 +361,23 @@
             </div>
         </div>
 
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="card w-100">
                     <div class="card-body">
                         <div class="d-md-flex justify-content-center">
                             <div class="text-center">
-                                <h4 class="card-title text-center">Cetak Surat Rekomendasi</h4>
+                                <h4 class="card-title text-center">Download Excel</h4>
                                 <p class="card-subtitle text-center">
                                     <hr>
                                 </p>
-                                <a href="/backoffice/export_word" target="__blank" class="btn btn-outline-success btn-lg"> Cetak Surat</a>
+                                <a href="/backoffice/export_excel/<?= $id ?>/<?= $id_pengajuan_rekom ?>" class="btn btn-outline-success btn-lg"> Cetak Excel</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
 
         <!-- Modal Edit -->
