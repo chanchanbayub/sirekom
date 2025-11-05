@@ -19,6 +19,7 @@ class DatabaseKendaraanModel extends Model
         'alamat',
         'tahun',
         'merk',
+        'jenis_kendaraan',
         'awal_masa_berlaku',
         'habis_masa_berlaku',
         'tanggal_penerbitan',
@@ -56,7 +57,7 @@ class DatabaseKendaraanModel extends Model
         $db = db_connect();
         $builder = $db->table($this->table);
 
-        $builder = $builder->select("data_base_kendaraan_2014_table.id, data_base_kendaraan_2014_table.nomor_kendaraan, data_base_kendaraan_2014_table.no_uji_kendaraan, data_base_kendaraan_2014_table.kode_trayek, data_base_kendaraan_2014_table.trayek, data_base_kendaraan_2014_table.operator, data_base_kendaraan_2014_table.alamat, data_base_kendaraan_2014_table.tahun, data_base_kendaraan_2014_table.merk, data_base_kendaraan_2014_table.awal_masa_berlaku, data_base_kendaraan_2014_table.habis_masa_berlaku, data_base_kendaraan_2014_table.tanggal_penerbitan")
+        $builder = $builder->select("data_base_kendaraan_2014_table.id, data_base_kendaraan_2014_table.nomor_kendaraan, data_base_kendaraan_2014_table.no_uji_kendaraan, data_base_kendaraan_2014_table.kode_trayek, data_base_kendaraan_2014_table.trayek, data_base_kendaraan_2014_table.operator, data_base_kendaraan_2014_table.alamat, data_base_kendaraan_2014_table.tahun, data_base_kendaraan_2014_table.merk, data_base_kendaraan_2014_table.awal_masa_berlaku, data_base_kendaraan_2014_table.habis_masa_berlaku, data_base_kendaraan_2014_table.tanggal_penerbitan, jenis_kendaraan")
             ->where(["data_base_kendaraan_2014_table.operator" => $operator]);
         return $builder->orderBy('data_base_kendaraan_2014_table.id desc');
     }
@@ -64,7 +65,7 @@ class DatabaseKendaraanModel extends Model
     public function getDb2014($nomor_kendaraan)
     {
         return $this->table($this->table)
-            ->select("data_base_kendaraan_2014_table.operator,data_base_kendaraan_2014_table.nomor_kendaraan, data_base_kendaraan_2014_table.no_uji_kendaraan,data_base_kendaraan_2014_table.merk, data_base_kendaraan_2014_table.tahun")
+            ->select("data_base_kendaraan_2014_table.operator,data_base_kendaraan_2014_table.nomor_kendaraan, data_base_kendaraan_2014_table.no_uji_kendaraan,data_base_kendaraan_2014_table.merk, data_base_kendaraan_2014_table.tahun, jenis_kendaraan")
             ->where(["nomor_kendaraan" => $nomor_kendaraan])
             // ->select('database_kendaraan_table.id')
             // ->select("COUNT(database_kendaraan_table.operator) AS jumlah_kendaraan")

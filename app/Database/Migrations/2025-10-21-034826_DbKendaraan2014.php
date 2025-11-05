@@ -54,6 +54,11 @@ class DbKendaraan2014 extends Migration
                 'constraint'     => '255',
                 'null'          => true
             ],
+            'jenis_kendaraan' => [
+                'type'           => 'VARCHAR',
+                'constraint'     => '255',
+                'null'          => true
+            ],
 
             'awal_masa_berlaku' => [
                 'type'           => 'VARCHAR',
