@@ -47,6 +47,7 @@ class KendaraanController extends BaseController
 
         $total_kendaraan = $this->kendaraanModel->countAllResults();
 
+        // dd($total_kendaraan);
 
         $data = [
             'title' => 'Database Kendaraan',
